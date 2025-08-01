@@ -19,12 +19,28 @@ function App() {
   useEffect(() => {
     const ws = new WebSocket("wss://toda-backend-tr28.onrender.com");
 
-    ws.onmessage = (event) => {
-      const newData = JSON.parse(event.data);
-      setData(newData);
+    ws.onopen = () => {
+      console.log("✅ WebSocket connected");
+    };
 
-      setBlink(true);
-      setTimeout(() => setBlink(false), 1); // Invisible for 150ms
+    ws.onmessage = (event) => {
+      try {
+        const newData = JSON.parse(event.data);
+        console.log("📡 Data received:", newData);
+        setData(newData);
+        setBlink(true);
+        setTimeout(() => setBlink(false), 150);
+      } catch (err) {
+        console.error("❌ Error parsing message", err);
+      }
+    };
+
+    ws.onerror = (err) => {
+      console.error("❌ WebSocket error", err);
+    };
+
+    ws.onclose = () => {
+      console.warn("⚠️ WebSocket closed");
     };
 
     return () => ws.close();
