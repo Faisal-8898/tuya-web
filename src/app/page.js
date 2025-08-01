@@ -17,13 +17,12 @@ function App() {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:5050");
+    const ws = new WebSocket("wss://toda-backend-tr28.onrender.com");
 
     ws.onmessage = (event) => {
       const newData = JSON.parse(event.data);
       setData(newData);
 
-      // Trigger blink: temporarily hide values
       setBlink(true);
       setTimeout(() => setBlink(false), 1); // Invisible for 150ms
     };
