@@ -1,13 +1,19 @@
 "use client";
 
 import { ChartAreaInteractive } from "./Main_chart";
+import { DeviceControl } from "@/components/DeviceControl";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
   return (
-    <div>
-      <App />
-      <ChartAreaInteractive />
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto p-6 space-y-6">
+        <App />
+        <div className="flex justify-end">
+          <DeviceControl />
+        </div>
+        <ChartAreaInteractive />
+      </div>
     </div>
   );
 }
@@ -52,25 +58,28 @@ function App() {
 
   return (
     <div className="font-sans p-6">
-      <h1 className="text-2xl font-bold mb-6">🔌 Live Tuya Device Monitor</h1>
+      <h1 className="text-3xl font-bold mb-6"> Live Tuya Device Monitor</h1>
 
       {data ? (
-        <div className="text-xl space-y-3">
-          <p>
-            <strong>Time:</strong>{" "}
-            <span className={blinkClass}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-xl">
+          <div className="bg-white p-4 rounded-lg shadow-sm border">
+            <div className="text-sm font-medium text-gray-500 mb-1">Time</div>
+            <div className={`font-semibold ${blinkClass}`}>
               {new Date(data.time).toLocaleTimeString()}
-            </span>
-          </p>
-          <p>
-            <strong>Current:</strong> <span>{data.current} A</span>
-          </p>
-          <p>
-            <strong>Voltage:</strong> <span>{data.voltage} V</span>
-          </p>
-          <p>
-            <strong>Power:</strong> <span>{data.power} W</span>
-          </p>
+            </div>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-sm border">
+            <div className="text-sm font-medium text-gray-500 mb-1">Current</div>
+            <div className="font-semibold">{data.current} A</div>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-sm border">
+            <div className="text-sm font-medium text-gray-500 mb-1">Voltage</div>
+            <div className="font-semibold">{data.voltage} V</div>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-sm border">
+            <div className="text-sm font-medium text-gray-500 mb-1">Power</div>
+            <div className="font-semibold">{data.power} W</div>
+          </div>
         </div>
       ) : (
         <p className="text-gray-500">Waiting for data...</p>
