@@ -64,7 +64,9 @@ export function ChartAreaInteractive() {
         setLoading(true);
       }
       setError(null);
-      const response = await fetch("http://localhost:9060/main-chart/data");
+      const response = await fetch(
+        "https://toda-backend-tr28.onrender.com/main-chart/data"
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
