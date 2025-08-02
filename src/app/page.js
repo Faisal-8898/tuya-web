@@ -70,7 +70,7 @@ function App() {
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border">
             <div className="text-sm font-medium text-gray-500 mb-1">Current</div>
-            <div className="font-semibold">{data.current} A</div>
+            <div className="font-semibold">{data.current} mA</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border">
             <div className="text-sm font-medium text-gray-500 mb-1">Voltage</div>

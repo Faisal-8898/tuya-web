@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ComposedChart,
+} from "recharts";
 import { Loader2, RefreshCw } from "lucide-react";
 
 import {
@@ -42,7 +49,7 @@ const chartConfig = {
 };
 
 export function ChartAreaInteractive() {
-  const [timeRange, setTimeRange] = React.useState("7d");
+  const [timeRange, setTimeRange] = React.useState("1d");
   const [chartData, setChartData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
@@ -57,7 +64,7 @@ export function ChartAreaInteractive() {
         setLoading(true);
       }
       setError(null);
-      const response = await fetch("https://toda-backend-tr28.onrender.com/main-chart/data");
+      const response = await fetch("http://localhost:9060/main-chart/data");
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -98,7 +105,9 @@ export function ChartAreaInteractive() {
       case "1d":
         return chartData.today || [];
       case "7d":
-        return chartData.week || [];
+        const weekData = chartData.week || [];
+        console.log("Last 7 days data:", weekData);
+        return weekData;
       case "30d":
         return chartData.month || [];
       default:
@@ -167,7 +176,7 @@ export function ChartAreaInteractive() {
               className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
               aria-label="Select a value"
             >
-              <SelectValue placeholder="Last 7 days" />
+              <SelectValue placeholder="Today" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
               <SelectItem value="1d" className="rounded-lg">
@@ -201,7 +210,7 @@ export function ChartAreaInteractive() {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
+          <ComposedChart data={filteredData}>
             <defs>
               <linearGradient id="fillPower" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -261,10 +270,21 @@ export function ChartAreaInteractive() {
               }}
             />
             <YAxis
+              yAxisId="left"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               tickFormatter={(value) => `${value}`}
+              domain={[0, 5000]}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => `${value}V`}
+              domain={[200, 260]}
             />
             <ChartTooltip
               cursor={false}
@@ -290,24 +310,24 @@ export function ChartAreaInteractive() {
               type="natural"
               fill="url(#fillPower)"
               stroke="var(--color-power)"
-              stackId="a"
+              yAxisId="left"
             />
             <Area
               dataKey="current"
               type="natural"
               fill="url(#fillCurrent)"
               stroke="var(--color-current)"
-              stackId="a"
+              yAxisId="left"
             />
             <Area
               dataKey="voltage"
               type="natural"
               fill="url(#fillVoltage)"
               stroke="var(--color-voltage)"
-              stackId="a"
+              yAxisId="right"
             />
             <ChartLegend content={<ChartLegendContent />} />
-          </AreaChart>
+          </ComposedChart>
         </ChartContainer>
       </CardContent>
     </Card>
