@@ -21,18 +21,20 @@ export default function Home() {
 function App() {
   const [data, setData] = useState(null);
   const [blink, setBlink] = useState(false);
+  const [wsConnected, setWsConnected] = useState(false);
 
   useEffect(() => {
     const ws = new WebSocket("wss://toda-backend-tr28.onrender.com");
 
     ws.onopen = () => {
       console.log("✅ WebSocket connected");
+      setWsConnected(true);
     };
 
     ws.onmessage = (event) => {
       try {
         const newData = JSON.parse(event.data);
-        console.log("📡 Data received:", newData);
+      
         setData(newData);
         setBlink(true);
         setTimeout(() => setBlink(false), 150);
@@ -47,6 +49,7 @@ function App() {
 
     ws.onclose = () => {
       console.warn("⚠️ WebSocket closed");
+      setWsConnected(false);
     };
 
     return () => ws.close();
@@ -58,7 +61,15 @@ function App() {
 
   return (
     <div className="font-sans p-6">
-      <h1 className="text-3xl font-bold mb-6"> Live Tuya Device Monitor</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">Live Tuya Device Monitor</h1>
+        <div className="flex items-center gap-2">
+          <div className={`w-3 h-3 rounded-full ${wsConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+          <span className="text-sm text-gray-600">
+            {wsConnected ? 'Connected' : 'Disconnected'}
+          </span>
+        </div>
+      </div>
 
       {data ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-xl">
