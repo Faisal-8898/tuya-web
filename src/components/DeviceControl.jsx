@@ -42,13 +42,16 @@ export function DeviceControl() {
   const handleSwitchToggle = async (checked) => {
     try {
       setSwitchLoading(true);
-      const response = await fetch("http://localhost:9060/switch", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ state: checked }),
-      });
+      const response = await fetch(
+        "https://toda-backend-tr28.onrender.com/switch",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ state: checked }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
