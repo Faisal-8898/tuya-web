@@ -1,18 +1,28 @@
 "use client";
 
+import { TodayCost } from "@/components/TodayCost";
 import { ChartAreaInteractive } from "./Main_chart";
 import { DeviceControl } from "@/components/DeviceControl";
+import { UnitkwhChart } from "@/components/UnitkwhChart";
+import { UnitMoneyChart } from "@/components/UnitMoneyChart";
 import React, { useEffect, useState } from "react";
+import { Todaykwh } from "@/components/Todaykwh";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto p-6 space-y-6">
         <App />
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          <Todaykwh />
+          <TodayCost />
           <DeviceControl />
         </div>
         <ChartAreaInteractive />
+        <div className="flex justify-between">
+          <UnitkwhChart />
+          <UnitMoneyChart />
+        </div>
       </div>
     </div>
   );
@@ -34,7 +44,7 @@ function App() {
     ws.onmessage = (event) => {
       try {
         const newData = JSON.parse(event.data);
-      
+
         setData(newData);
         setBlink(true);
         setTimeout(() => setBlink(false), 150);
