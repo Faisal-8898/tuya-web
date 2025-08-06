@@ -65,6 +65,24 @@ function App() {
     return () => ws.close();
   }, []);
 
+  const handleUserManualDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/user-manual.pdf';
+    link.download = 'user-manual.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleInstallationGuideDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/Project_Setup_Guide.pdf';
+    link.download = 'Project_Setup_Guide.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const blinkClass = blink
     ? "opacity-0 transition-opacity duration-150"
     : "opacity-100 transition-opacity duration-150";
@@ -73,11 +91,27 @@ function App() {
     <div className="font-sans p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Live Tuya Device Monitor</h1>
-        <div className="flex items-center gap-2">
-          <div className={`w-3 h-3 rounded-full ${wsConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
-          <span className="text-sm text-gray-600">
-            {wsConnected ? 'Connected' : 'Disconnected'}
-          </span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleUserManualDownload}
+              className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 active:scale-95 active:bg-gray-100 transition-all duration-150 ease-in-out shadow-sm hover:shadow-md"
+            >
+              User Manual
+            </button>
+            <button
+              onClick={handleInstallationGuideDownload}
+              className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 active:scale-95 active:bg-gray-100 transition-all duration-150 ease-in-out shadow-sm hover:shadow-md"
+            >
+              Installation Guide
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className={`w-3 h-3 rounded-full ${wsConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+            <span className="text-sm text-gray-600">
+              {wsConnected ? 'Connected' : 'Disconnected'}
+            </span>
+          </div>
         </div>
       </div>
 

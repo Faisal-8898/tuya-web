@@ -10,9 +10,7 @@ export function TodayCost() {
   React.useEffect(() => {
     const fetchTodayCost = async () => {
       try {
-        const response = await fetch(
-          "https://toda-backend-tr28.onrender.com/today-consumption"
-        );
+        const response = await fetch("https://toda-backend-tr28.onrender.com/today-consumption");
         const result = await response.json();
 
         if (result.success) {
@@ -33,7 +31,9 @@ export function TodayCost() {
   return (
     <Card className="w-[600px] ml-4">
       <CardHeader className="pb-3">
-        <CardTitle className="font-semibold text-xl">Today's Electricity Cost for AC</CardTitle>
+        <CardTitle className="font-semibold text-xl">
+          Today's Electricity Cost for AC
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
