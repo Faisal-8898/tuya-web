@@ -1,31 +1,64 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function TodayCost() {
-  const [initialLoading, setInitialLoading] = React.useState(true);
-  const [todayCost, setTodayCost] = React.useState(0);
+// Tariff slabs (step-wise rates)
+const tariffSlabs = [
+  { limit: 75, rate: 4.5 },
+  { limit: 125, rate: 5.5 },
+  { limit: 100, rate: 6.5 },
+  { limit: 100, rate: 8.5 },
+  { limit: Infinity, rate: 11.0 },
+];
 
-  React.useEffect(() => {
-    const fetchTodayCost = async () => {
+// Calculate cost based on slabs
+function calculateTariffCost(units) {
+  let cost = 0;
+  let remaining = units;
+
+  for (let i = 0; i < tariffSlabs.length; i++) {
+    if (remaining <= 0) break;
+
+    const slab = tariffSlabs[i];
+    const slabUnits = Math.min(remaining, slab.limit);
+    cost += slabUnits * slab.rate;
+    remaining -= slabUnits;
+  }
+
+  return cost;
+}
+
+export function TodayCost() {
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [kwh, setKwh] = useState(0);
+  const [tariffCost, setTariffCost] = useState(0);
+
+  useEffect(() => {
+    const fetchTodayConsumption = async () => {
       try {
-        const response = await fetch("https://toda-backend-tr28.onrender.com/today-consumption");
+        const response = await fetch(
+          "https://toda-backend-tr28.onrender.com/today-consumption",
+        );
         const result = await response.json();
 
         if (result.success) {
-          setTodayCost(result.data.cost);
+          const units = result.data.kwh;
+          const cost = calculateTariffCost(units);
+
+          setKwh(units);
+          setTariffCost(cost);
         } else {
-          console.error("Failed to fetch today's cost:", result.error);
+          console.error("Failed to fetch:", result.error);
         }
       } catch (error) {
-        console.error("Error fetching today's cost:", error);
+        console.error("Fetch error:", error);
       } finally {
         setInitialLoading(false);
       }
     };
 
-    fetchTodayCost();
+    fetchTodayConsumption();
   }, []);
 
   return (
@@ -36,19 +69,21 @@ export function TodayCost() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-1">
-            <span className="text-xl font-medium text-gray-700">
-              {initialLoading ? "Loading..." : todayCost.toFixed(2)}
-            </span>
-            <span className="text-lg text-gray-500">Taka</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-end">
-          <span className="text-xs text-gray-500">
-            Today's Cost When per unit is 10 taka
-          </span>
-        </div>
+        {initialLoading ? (
+          <div className="text-lg text-gray-600">Loading...</div>
+        ) : (
+          <>
+            <div className="text-xl font-medium text-gray-800">
+              {tariffCost.toFixed(2)} Taka
+            </div>
+            <div className="text-sm text-gray-600">
+              Units consumed: {kwh.toFixed(2)} kWh
+            </div>
+            <div className="text-xs text-gray-500 mt-2">
+              Calculated using official tariff slabs
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   );
