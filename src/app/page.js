@@ -66,18 +66,18 @@ function App() {
   }, []);
 
   const handleUserManualDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/user-manual.pdf';
-    link.download = 'user-manual.pdf';
+    const link = document.createElement("a");
+    link.href = "/user-manual.pdf";
+    link.download = "user-manual.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   const handleInstallationGuideDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/Project_Setup_Guide.pdf';
-    link.download = 'Project_Setup_Guide.pdf';
+    const link = document.createElement("a");
+    link.href = "/Project_Setup_Guide.pdf";
+    link.download = "Project_Setup_Guide.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -90,7 +90,7 @@ function App() {
   return (
     <div className="font-sans p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Live Tuya Device Monitor</h1>
+        <h1 className="text-3xl font-bold">Tuya Device Monitor</h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <button
@@ -107,9 +107,11 @@ function App() {
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <div className={`w-3 h-3 rounded-full ${wsConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+            <div
+              className={`w-3 h-3 rounded-full ${wsConnected ? "bg-green-500" : "bg-red-500"}`}
+            ></div>
             <span className="text-sm text-gray-600">
-              {wsConnected ? 'Connected' : 'Disconnected'}
+              {wsConnected ? "Connected" : "Disconnected"}
             </span>
           </div>
         </div>
@@ -124,11 +126,15 @@ function App() {
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border">
-            <div className="text-sm font-medium text-gray-500 mb-1">Current</div>
+            <div className="text-sm font-medium text-gray-500 mb-1">
+              Current
+            </div>
             <div className="font-semibold">{data.current} mA</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border">
-            <div className="text-sm font-medium text-gray-500 mb-1">Voltage</div>
+            <div className="text-sm font-medium text-gray-500 mb-1">
+              Voltage
+            </div>
             <div className="font-semibold">{data.voltage} V</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border">
