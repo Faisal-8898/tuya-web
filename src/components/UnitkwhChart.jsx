@@ -63,15 +63,17 @@ export function UnitkwhChart() {
         const dailyKwhData = weekData.map((item, index) => {
           const date = new Date();
           date.setDate(date.getDate() - (weekData.length - 1 - index));
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+          const dayName = date.toLocaleDateString("en-US", {
+            weekday: "short",
+          });
 
           // Calculate daily kWh: (power in watts / 1000) * assumed hours of usage
           // Assuming average 8 hours of usage per day
-          const dailyKwh = (item.power || 0) / 1000 * 8;
+          const dailyKwh = ((item.power || 0) / 1000) * 8;
 
           return {
             day: dayName,
-            unit: parseFloat(dailyKwh.toFixed(2)) // Round to 2 decimal places
+            unit: parseFloat(dailyKwh.toFixed(2)), // Round to 2 decimal places
           };
         });
 
@@ -113,9 +115,9 @@ export function UnitkwhChart() {
   // Show loading state
   if (loading) {
     return (
-      <Card className="w-[600px] h-[420px] p-3 pt-5 flex-col">
+      <Card className="w-[600px] h-[430px] p-3 pt-5 flex-col">
         <CardHeader>
-          <CardTitle>Unit kWh Chart - Loading</CardTitle>
+          <CardTitle>Weekly Unit kWh Chart - Loading</CardTitle>
           <CardDescription>Loading energy consumption data...</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center h-64">
@@ -128,10 +130,12 @@ export function UnitkwhChart() {
   // Show error state
   if (error) {
     return (
-      <Card className="w-[600px] h-[420px] p-3 pt-5 flex-col">
+      <Card className="w-[600px] h-[430px] p-3 pt-5 flex-col">
         <CardHeader>
-          <CardTitle>Unit kWh Chart - Error</CardTitle>
-          <CardDescription>Failed to load energy consumption data</CardDescription>
+          <CardTitle>Weekly Unit kWh Chart - Error</CardTitle>
+          <CardDescription>
+            Failed to load energy consumption data
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center h-64 space-y-4">
           <p className="text-sm text-muted-foreground text-center">{error}</p>
@@ -140,7 +144,9 @@ export function UnitkwhChart() {
             className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
             disabled={refreshing}
           >
-            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
+            />
             <span>Retry</span>
           </button>
         </CardContent>
@@ -149,10 +155,10 @@ export function UnitkwhChart() {
   }
 
   return (
-    <Card className="w-[600px] h-[420px] p-3 pt-5 flex-col">
+    <Card className="w-[600px] h-[430px] p-3 pt-5 flex-col">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Unit kWh Chart - Step</CardTitle>
+          <CardTitle>Weekly Unit kWh Chart - Step</CardTitle>
           <CardDescription>
             Daily energy consumption for the last 7 days
           </CardDescription>
@@ -162,7 +168,9 @@ export function UnitkwhChart() {
           className="flex items-center space-x-2 px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80"
           disabled={refreshing}
         >
-          <RefreshCw className={`h-3 w-3 ${refreshing ? 'animate-spin' : ''}`} />
+          <RefreshCw
+            className={`h-3 w-3 ${refreshing ? "animate-spin" : ""}`}
+          />
           <span>Refresh</span>
         </button>
       </CardHeader>
@@ -198,18 +206,6 @@ export function UnitkwhChart() {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Energy consumption over the week <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Updated in real-time from MongoDB
-            </div>
-          </div>
-        </div>
-      </CardFooter>
     </Card>
   );
 }

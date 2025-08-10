@@ -41,11 +41,11 @@ export function UnitMoneyChart() {
 
     // Bangladesh residential electricity tariff slabs (as of 2024)
     const tariffSlabs = [
-      { limit: 75, rate: 4.5 },      // 0-75 units: 4.5 taka per unit
-      { limit: 125, rate: 5.5 },     // 76-200 units: 5.5 taka per unit
-      { limit: 100, rate: 6.5 },     // 201-300 units: 6.5 taka per unit
-      { limit: 100, rate: 8.5 },     // 301-400 units: 8.5 taka per unit
-      { limit: Infinity, rate: 11.0 } // 400+ units: 11.0 taka per unit
+      { limit: 75, rate: 4.5 }, // 0-75 units: 4.5 taka per unit
+      { limit: 125, rate: 5.5 }, // 76-200 units: 5.5 taka per unit
+      { limit: 100, rate: 6.5 }, // 201-300 units: 6.5 taka per unit
+      { limit: 100, rate: 8.5 }, // 301-400 units: 8.5 taka per unit
+      { limit: Infinity, rate: 11.0 }, // 400+ units: 11.0 taka per unit
     ];
 
     for (const slab of tariffSlabs) {
@@ -87,18 +87,20 @@ export function UnitMoneyChart() {
         const dailyCostData = weekData.map((item, index) => {
           const date = new Date();
           date.setDate(date.getDate() - (weekData.length - 1 - index));
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+          const dayName = date.toLocaleDateString("en-US", {
+            weekday: "short",
+          });
 
           // Calculate daily power consumption in kWh
           // Assuming average 8 hours of usage per day
-          const dailyPowerKwh = (item.power || 0) / 1000 * 8;
+          const dailyPowerKwh = ((item.power || 0) / 1000) * 8;
 
           // Calculate cost using Bangladesh slab-based tariff
           const dailyCost = calculateElectricityCost(dailyPowerKwh);
 
           return {
             day: dayName,
-            taka: Math.round(dailyCost)
+            taka: Math.round(dailyCost),
           };
         });
 
@@ -111,13 +113,13 @@ export function UnitMoneyChart() {
       setError(err.message);
       // Fallback to sample data on error (calculated using slab rates)
       setChartData([
-        { day: "Mon", taka: 580 },   // ~20 kWh usage
-        { day: "Tue", taka: 640 },   // ~22 kWh usage
-        { day: "Wed", taka: 750 },   // ~25 kWh usage
-        { day: "Thu", taka: 690 },   // ~23 kWh usage
-        { day: "Fri", taka: 810 },   // ~27 kWh usage
-        { day: "Sat", taka: 730 },   // ~24 kWh usage
-        { day: "Sun", taka: 670 },   // ~22 kWh usage
+        { day: "Mon", taka: 580 }, // ~20 kWh usage
+        { day: "Tue", taka: 640 }, // ~22 kWh usage
+        { day: "Wed", taka: 750 }, // ~25 kWh usage
+        { day: "Thu", taka: 690 }, // ~23 kWh usage
+        { day: "Fri", taka: 810 }, // ~27 kWh usage
+        { day: "Sat", taka: 730 }, // ~24 kWh usage
+        { day: "Sun", taka: 670 }, // ~22 kWh usage
       ]);
     } finally {
       if (isRefresh) {
@@ -139,9 +141,9 @@ export function UnitMoneyChart() {
   // Show loading state
   if (loading) {
     return (
-      <Card className="w-[600px] h-[420px] p-3 pt-5 flex flex-col">
+      <Card className="w-[600px] h-[430px] p-3 pt-5 flex flex-col">
         <CardHeader>
-          <CardTitle>Electricity Cost</CardTitle>
+          <CardTitle>Weekly Electricity Cost</CardTitle>
           <CardDescription>Loading daily cost data...</CardDescription>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
@@ -157,9 +159,9 @@ export function UnitMoneyChart() {
   // Show error state
   if (error && chartData.length === 0) {
     return (
-      <Card className="w-[600px] h-[420px] p-3 pt-5 flex flex-col">
+      <Card className="w-[600px] h-[430px] p-3 pt-5 flex flex-col">
         <CardHeader>
-          <CardTitle>Electricity Cost</CardTitle>
+          <CardTitle>Electricity Cost In Weekly</CardTitle>
           <CardDescription>Error loading cost data</CardDescription>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
@@ -178,12 +180,13 @@ export function UnitMoneyChart() {
   }
 
   return (
-    <Card className="w-[600px] h-[420px] p-3 pt-5 flex flex-col">
+    <Card className="w-[600px] h-[430px] p-3 pt-5 flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div>
-          <CardTitle>Daily Electricity Cost</CardTitle>
+          <CardTitle>Weekly Electricity Cost</CardTitle>
           <CardDescription>
-            Showing daily electricity cost using Bangladesh slab-based tariff rates
+            Showing weekly electricity cost using Bangladesh slab-based tariff
+            rates
           </CardDescription>
         </div>
         <button
@@ -191,7 +194,9 @@ export function UnitMoneyChart() {
           disabled={refreshing}
           className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8"
         >
-          <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+          <RefreshCw
+            className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
+          />
         </button>
       </CardHeader>
       <CardContent className="flex-1">
@@ -226,15 +231,6 @@ export function UnitMoneyChart() {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Daily cost based on power consumption data <TrendingUp className="h-4 w-4" />
-            </div>
-          </div>
-        </div>
-      </CardFooter>
     </Card>
   );
 }

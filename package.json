@@ -1,8 +1,8 @@
 {
-  "name": "tuya-web",
+  "name": "energy-consumption-monitor-web",
   "version": "0.1.0",
   "private": true,
-  "author": "Faisal Ahmed",
+  "author": "Nelufa Yeasmin",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

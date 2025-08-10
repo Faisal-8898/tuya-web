@@ -10,7 +10,15 @@ import { Todaykwh } from "@/components/Todaykwh";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div
+      className="min-h-screen bg-gray-50"
+      // style={{
+      //   backgroundImage: 'url(/energy.jpg)',
+      //   backgroundSize: 'cover',
+      //   backgroundPosition: 'center',
+      //   backgroundRepeat: 'no-repeat'
+      // }}
+    >
       <div className="container mx-auto p-6 space-y-6">
         <App />
         <div className="flex justify-between">
@@ -90,7 +98,7 @@ function App() {
   return (
     <div className="font-sans p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Tuya Device Monitor</h1>
+        <h1 className="text-3xl font-bold">Real-time Energy Monitoring System</h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <button

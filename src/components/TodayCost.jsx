@@ -38,7 +38,7 @@ export function TodayCost() {
     const fetchTodayConsumption = async () => {
       try {
         const response = await fetch(
-          "https://toda-backend-tr28.onrender.com/today-consumption",
+          "https://toda-backend-tr28.onrender.com/today-consumption"
         );
         const result = await response.json();
 
@@ -80,7 +80,7 @@ export function TodayCost() {
               Units consumed: {kwh.toFixed(2)} kWh
             </div>
             <div className="text-xs text-gray-500 mt-2">
-              Calculated using official tariff slabs
+              Accorting to Bangladeshi official tariff slabs
             </div>
           </>
         )}
