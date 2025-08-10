@@ -1,19 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { TrendingUp, Loader2, RefreshCw } from "lucide-react";
+import { TrendingUp, Loader2, RefreshCw, Banknote } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -24,7 +15,7 @@ export const description = "A linear area chart";
 const chartConfig = {
   taka: {
     label: "Taka",
-    color: "var(--chart-1)",
+    color: "#ff6b6b", // Bright red color to match theme
   },
 };
 
@@ -141,66 +132,110 @@ export function UnitMoneyChart() {
   // Show loading state
   if (loading) {
     return (
-      <Card className="w-[600px] h-[430px] p-3 pt-5 flex flex-col">
-        <CardHeader>
-          <CardTitle>Weekly Electricity Cost</CardTitle>
-          <CardDescription>Loading daily cost data...</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 flex items-center justify-center">
-          <div className="flex items-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span>Loading...</span>
+      <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-6 w-[600px] h-[430px] flex flex-col">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl blur-lg opacity-50"></div>
+            <div className="relative bg-gradient-to-r from-yellow-500 to-orange-600 p-3 rounded-xl">
+              <Banknote className="h-5 w-5 text-white" />
+            </div>
           </div>
-        </CardContent>
-      </Card>
+          <div>
+            <h3 className="text-lg font-bold text-white">
+              Weekly Electricity Cost
+            </h3>
+            <p className="text-sm text-blue-200">Loading daily cost data...</p>
+          </div>
+        </div>
+
+        {/* Loading Content */}
+        <div className="flex-1 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
+          <div className="flex items-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-white" />
+            <span className="text-white font-medium">
+              Loading chart data...
+            </span>
+          </div>
+        </div>
+      </div>
     );
   }
 
   // Show error state
   if (error && chartData.length === 0) {
     return (
-      <Card className="w-[600px] h-[430px] p-3 pt-5 flex flex-col">
-        <CardHeader>
-          <CardTitle>Electricity Cost In Weekly</CardTitle>
-          <CardDescription>Error loading cost data</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-2">{error}</p>
+      <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-6 w-[600px] h-[430px] flex flex-col">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-orange-500 rounded-xl blur-lg opacity-50"></div>
+            <div className="relative bg-gradient-to-r from-red-500 to-orange-600 p-3 rounded-xl">
+              <Banknote className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">
+              Electricity Cost In Weekly
+            </h3>
+            <p className="text-sm text-red-200">Error loading cost data</p>
+          </div>
+        </div>
+
+        {/* Error Content */}
+        <div className="flex-1 flex items-center justify-center bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
+          <div className="text-center space-y-4">
+            <p className="text-sm text-red-200">{error}</p>
             <button
               onClick={handleRefresh}
-              className="text-sm text-blue-500 hover:text-blue-700"
+              className="px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
             >
               Try again
             </button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="w-[600px] h-[430px] p-3 pt-5 flex flex-col">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div>
-          <CardTitle>Weekly Electricity Cost</CardTitle>
-          <CardDescription>
-            Showing weekly electricity cost using Bangladesh slab-based tariff
-            rates
-          </CardDescription>
+    <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-6 w-[600px] h-[430px] flex flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl blur-lg opacity-50"></div>
+            <div className="relative bg-gradient-to-r from-yellow-500 to-orange-600 p-3 rounded-xl">
+              <Banknote className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">
+              Weekly Electricity Cost
+            </h3>
+            <p className="text-sm text-blue-200">
+              Showing weekly electricity cost using Bangladesh slab-based tariff
+              rates
+            </p>
+          </div>
         </div>
+
+        {/* Refresh Button */}
         <button
           onClick={handleRefresh}
           disabled={refreshing}
-          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8"
+          className="flex items-center gap-2 px-3 py-2 bg-white/10 border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all disabled:opacity-50"
         >
           <RefreshCw
             className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
           />
+          <span className="text-sm font-medium">Refresh</span>
         </button>
-      </CardHeader>
-      <CardContent className="flex-1">
-        <ChartContainer config={chartConfig}>
+      </div>
+
+      {/* Chart */}
+      <div className="flex-1 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-4">
+        <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <AreaChart
             accessibilityLayer
             data={chartData}
@@ -209,28 +244,47 @@ export function UnitMoneyChart() {
               right: 12,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <defs>
+              <linearGradient id="fillTaka" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#ff6b6b" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#ff6b6b" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.1)" />
             <XAxis
               dataKey="day"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
+              tick={{
+                fill: "#ffffff", // White text for visibility
+                fontSize: 12,
+                fontWeight: 600,
+                style: { fill: "#EDEDED" },
+              }}
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
+              content={
+                <ChartTooltipContent
+                  className="bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-xl text-white"
+                  indicator="dot"
+                  hideLabel
+                />
+              }
             />
             <Area
               dataKey="taka"
               type="linear"
-              fill="var(--chart-1)"
+              fill="url(#fillTaka)"
               fillOpacity={0.4}
-              stroke="var(--chart-1)"
+              stroke="#ff6b6b"
+              strokeWidth={2}
             />
           </AreaChart>
         </ChartContainer>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

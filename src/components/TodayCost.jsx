@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Banknote, Loader2, DollarSign } from "lucide-react";
 
 // Tariff slabs (step-wise rates)
 const tariffSlabs = [
@@ -62,29 +62,78 @@ export function TodayCost() {
   }, []);
 
   return (
-    <Card className="w-[600px] ml-4">
-      <CardHeader className="pb-3">
-        <CardTitle className="font-semibold text-xl">
-          Today's Electricity Cost for AC
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-6 h-full">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl blur-lg opacity-50"></div>
+            <div className="relative bg-gradient-to-r from-yellow-500 to-orange-600 p-2 rounded-xl">
+              <Banknote className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Today's Cost</h3>
+            <p className="text-sm text-blue-200">Electricity Bill</p>
+          </div>
+        </div>
+        <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+          <DollarSign className="h-4 w-4 text-yellow-300" />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="space-y-4">
         {initialLoading ? (
-          <div className="text-lg text-gray-600">Loading...</div>
+          <div className="flex items-center justify-center py-8">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin text-yellow-400 mx-auto mb-3" />
+              <span className="text-white font-medium">
+                Calculating cost...
+              </span>
+            </div>
+          </div>
         ) : (
           <>
-            <div className="text-xl font-medium text-gray-800">
-              {tariffCost.toFixed(2)} Taka
+            {/* Cost Display */}
+            <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-sm rounded-xl p-6 border border-yellow-400/30">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-white mb-2">
+                  ৳{tariffCost.toFixed(2)}
+                </div>
+                <div className="text-sm text-yellow-200 font-medium">
+                  Total cost today
+                </div>
+              </div>
             </div>
-            <div className="text-sm text-gray-600">
-              Units consumed: {kwh.toFixed(2)} kWh
+
+            {/* Details */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm text-white font-medium">
+                  Units Consumed
+                </span>
+                <span className="text-sm text-blue-200 font-bold">
+                  {kwh.toFixed(2)} kWh
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-white font-medium">
+                  Rate Type
+                </span>
+                <span className="text-xs text-blue-200">Step-wise tariff</span>
+              </div>
             </div>
-            <div className="text-xs text-gray-500 mt-2">
-              Accorting to Bangladeshi official tariff slabs
+
+            {/* Tariff Info */}
+            <div className="bg-gradient-to-br from-orange-500/10 to-red-500/10 backdrop-blur-sm rounded-xl p-3 border border-orange-400/20">
+              <div className="text-xs text-orange-200 text-center">
+                Based on Bangladeshi official tariff slabs
+              </div>
             </div>
           </>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

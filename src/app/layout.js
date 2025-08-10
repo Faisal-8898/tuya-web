@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "toda app by F",
+  title: "energy monitoring system",
   description: "",
 };
 
