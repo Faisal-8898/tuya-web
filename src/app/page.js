@@ -50,7 +50,7 @@ export default function Home() {
                 </div>
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-white mb-1">Today's Overview</h2>
+                <h2 className="text-3xl font-bold text-white mb-1">Today&apos;s Overview</h2>
                 <p className="text-blue-200 text-lg">Energy consumption & cost analysis</p>
               </div>
             </div>
