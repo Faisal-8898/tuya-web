@@ -37,7 +37,7 @@ export function UnitkwhChart() {
       setError(null);
 
       const response = await fetch(
-        "https://power-dashboard-backend.onrender.com/main-chart/data"
+        `${process.env.NEXT_PUBLIC_API_URL}/main-chart/data`
       );
 
       if (!response.ok) {

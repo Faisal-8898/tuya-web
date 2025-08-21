@@ -13,7 +13,12 @@ export function DeviceControl() {
     const fetchSwitchStatus = async () => {
       try {
         const response = await fetch(
-          "https://toda-backend-tr28.onrender.com/switch-status"
+          `${process.env.NEXT_PUBLIC_API_URL}/switch-status`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": "1",
+            },
+          }
         );
 
         if (!response.ok) {
@@ -43,7 +48,7 @@ export function DeviceControl() {
     try {
       setSwitchLoading(true);
       const response = await fetch(
-        "https://toda-backend-tr28.onrender.com/switch",
+        `${process.env.NEXT_PUBLIC_API_URL}/switch`,
         {
           method: "POST",
           headers: {

@@ -11,7 +11,12 @@ export function Todaykwh() {
     const fetchTodayConsumption = async () => {
       try {
         const response = await fetch(
-          "https://toda-backend-tr28.onrender.com/today-consumption"
+          `${process.env.NEXT_PUBLIC_API_URL}/today-consumption`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": "1",
+            },
+          }
         );
         const result = await response.json();
 
@@ -78,7 +83,9 @@ export function Todaykwh() {
             <div className="flex items-center justify-between bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-white font-medium">Device is Active</span>
+                <span className="text-sm text-white font-medium">
+                  Device is Active
+                </span>
               </div>
               <div className="text-xs text-blue-200">Real-time monitoring</div>
             </div>

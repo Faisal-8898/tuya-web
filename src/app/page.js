@@ -145,7 +145,9 @@ function App() {
   const [wsConnected, setWsConnected] = useState(false);
 
   useEffect(() => {
-    const ws = new WebSocket("wss://toda-backend-tr28.onrender.com");
+    const ws = new WebSocket(
+      `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}?ngrok-skip-browser-warning=1`
+    );
 
     ws.onopen = () => {
       console.log("✅ WebSocket connected");

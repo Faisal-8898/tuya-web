@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Area,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  ComposedChart,
-} from "recharts";
+import { Area, CartesianGrid, XAxis, YAxis, ComposedChart } from "recharts";
 import {
   Loader2,
   RefreshCw,
@@ -66,12 +60,18 @@ export function ChartAreaInteractive() {
     try {
       if (isRefresh) {
         setRefreshing(true);
-      } else {
+      } else {``
         setLoading(true);
       }
+
       setError(null);
       const response = await fetch(
-        "https://toda-backend-tr28.onrender.com/main-chart/data"
+        `${process.env.NEXT_PUBLIC_API_URL}/main-chart/data`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "1",
+          },
+        }
       );
 
       if (!response.ok) {

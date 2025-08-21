@@ -38,8 +38,21 @@ export function TodayCost() {
     const fetchTodayConsumption = async () => {
       try {
         const response = await fetch(
-          "https://toda-backend-tr28.onrender.com/today-consumption"
+          `${process.env.NEXT_PUBLIC_API_URL}/today-consumption`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": "1",
+            },
+          }
         );
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await response.text(); // fallback to reading as text
+          console.error("Non-JSON response received:", text);
+          return;
+        }
+
         const result = await response.json();
 
         if (result.success) {
